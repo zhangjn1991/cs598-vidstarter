@@ -1,0 +1,66 @@
+<!Doctype html>
+<html ng-app="SearchResult">
+<head>
+	<link rel="stylesheet" href="css/search-results.css">
+	<script src="lib/angular/angular.min.js"></script>
+	<script src="js/search-result.js"></script>
+</head>
+<body ng-controller="GlobalController as globalCtrl">
+	<header>
+		<a href="/">
+			<img class="logo" src="resources/logo.png" alt="">
+		</a>
+		
+		<input type="text" class="search form-control">
+		<div class="search-button btn btn-primary">
+			<span class="glyphicon glyphicon-search"></span>
+		</div>
+		
+	</header>
+	<div class="main">
+		<aside ng-controller="FilterController as filterCtrl">
+			<div class="form-group" >
+				<h3>Sort by</h3>
+				<select class="form-control">
+					<option value="1">Option1</option>
+					<option value="2">Option2</option>
+					<option value="3">Option3</option>
+				</select>
+			</div>
+			 
+			<div class="form-group" ng-repeat="filter in filterCtrl.allFilters">
+				<h3>{{filter.title}}</h3>
+				<div class="checkbox" ng-repeat="option in filter.options">
+					<label>
+						<input type="checkbox">{{option}}
+					</label>
+				</div>
+			</div>
+		
+		</aside>
+		<section class="result-container" ng-controller="ResultController as resultCtrl">
+			<div class="result" ng-click="globalCtrl.showOverlay(result)" ng-repeat="result in resultCtrl.allResults">
+				<div class="image-container">
+					<img ng-src="{{result.image}}"  alt="product-image">
+					<h3 class="money"><p>{{result.money | currency}}</p></h3>
+				</div>
+				<h2 class="title">{{result.title}}</h2>
+			</div>
+		</section>
+	</div>
+	<div class="overlay" ng-show="globalCtrl.isOverlaying">
+		<iframe width="800" height="600" ng-src="{{globalCtrl.curVideoUrl}}" frameborder="0" scrolling="no"> </iframe>
+		<div class="closeButton" ng-click="globalCtrl.hideOverlay();">
+			<span class="glyphicon glyphicon-remove"></span>
+		</div>
+
+		
+		<section class="product-detail">
+			<h2 class="title">{{globalCtrl.curResult.title}}</h2>
+			<h3 class="money">{{globalCtrl.curResult.money | currency}}</h3>
+			<p class="description">{{globalCtrl.curResult.desc}}</p>
+			<a class="btn btn-primary btn-lg" href="{{globalCtrl.curResult.pageUrl}}">Go to Project</a>
+		</section>
+	</div>
+</body>
+</html>

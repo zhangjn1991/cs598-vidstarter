@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app="VidStarter">
+	<head>
+		<link rel="stylesheet" href="css/index.css">
+		<script src="lib/angular/angular.min.js"></script>
+		<script src="js/index.js"></script>	
+	</head>
+	<body ng-controller="GlobalController as globalCtrl">
+		
+		<div class="input-wrapper">
+			<div class="input-container">
+				<div class="input-main">
+					<h1>
+						<span>Vid</span><span>Starter</span>
+					</h1>
+					
+					<ul class="list-group">
+						<li class="list-group-item" ng-repeat="input in globalCtrl.allInputs">{{input.url}}</li>
+					</ul>
+					
+					<form class="search-container form-group" name="urlForm" ng-submit="globalCtrl.addInput()">
+						<input type="url" class="form-control url-input" ng-model="globalCtrl.curInput.url" placeholder="Input video URL here" required>
+						<button type="submit" class="btn btn-primary submit-button">
+							<span class="glyphicon glyphicon-plus"></span>
+						</button>
+					</form>
+					<div class="search-button-container">
+						<button class="btn btn-primary btn-lg" ng-click="globalCtrl.search()">Search</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="result-wrapper">
+			<div class="result-container"> 
+				<div class="result" ng-click="globalCtrl.showOverlay(result)" ng-repeat="result in globalCtrl.allResults">
+					<div class="image-container">
+						<img ng-src="{{result.image}}"  alt="product-image">
+						<h3 class="money"><p>{{result.money | currency}}</p></h3>
+					</div>
+					<h2 class="title">{{result.title}}</h2>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="overlay" ng-show="globalCtrl.isOverlaying">
+			<!-- <iframe width="800" height="600" ng-src="{{globalCtrl.curVideoUrl}}" frameborder="0" scrolling="no"> </iframe> -->
+			<div class="video-container">
+				<div class="embed-responsive embed-responsive-4by3">
+				  <iframe class="embed-responsive-item"  ng-src="{{globalCtrl.curVideoUrl}}"></iframe>
+				</div>
+			</div>
+
+			<div class="closeButton btn" ng-click="globalCtrl.hideOverlay();">
+
+				<span class="glyphicon glyphicon-remove"></span>
+			</div>
+
+
+			<section class="product-detail">
+				<h2 class="title">{{globalCtrl.curResult.title}}</h2>
+				<h3 class="money">{{globalCtrl.curResult.money | currency}}</h3>
+				<p class="description">{{globalCtrl.curResult.desc}}</p>
+				<a class="btn btn-primary btn-lg" href="{{globalCtrl.curResult.pageUrl}}">Go to Project</a>
+			</section>
+		</div>
+	</body>
+
+</html>
